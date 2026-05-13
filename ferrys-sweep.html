@@ -236,6 +236,22 @@ h1 { font-size: 1.65rem; color: var(--h1); margin-bottom: 5px; }
 .legend-row .tap  { font-size: .65rem; }
 .legend-row .hold { font-size: .50rem; }
 
+/* ── Layout selector ── */
+.layout-row { display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.layout-label { font-size:.72rem; color:var(--sub); white-space:nowrap; font-weight:600; }
+.layout-btn {
+  padding: 5px 13px;
+  background: var(--tab-bg);
+  border: 1px solid var(--tab-border);
+  border-radius: 5px;
+  color: var(--tab-text);
+  cursor: pointer;
+  font-size: .76rem;
+  transition: all .12s;
+}
+.layout-btn:hover  { background: var(--tab-hov-bg); color: var(--tab-hov-text); }
+.layout-btn.active { background: var(--tab-act-bg); border-color: var(--tab-act-bdr); color: #fff; font-weight: 600; }
+
 /* ── Print styles ── */
 @media print {
   body { background: #fff !important; color: #000; padding: 10px; }
@@ -287,125 +303,134 @@ h1 { font-size: 1.65rem; color: var(--h1); margin-bottom: 5px; }
     
   </div>
 
+  <div class="layout-row">
+    <span class="layout-label">OS Layout:</span>
+    <button class="layout-btn active" onclick="applyLayout('US')" id="layout-US">🇺🇸 US</button>
+    <button class="layout-btn" onclick="applyLayout('ES')" id="layout-ES">🇪🇸 ES</button>
+    <button class="layout-btn" onclick="applyLayout('UK')" id="layout-UK">🇬🇧 UK</button>
+    <button class="layout-btn" onclick="applyLayout('DE')" id="layout-DE">🇩🇪 DE</button>
+    <button class="layout-btn" onclick="applyLayout('FR')" id="layout-FR">🇫🇷 FR</button>
+  </div>
+
   <div class="panels">
 <div class="panel active" id="p0" data-label="Layer 0"><div class="keyboard">
   <div class="half">
-    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_Q"><span class="tap">Q</span></div></div>
-    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_W"><span class="tap">W</span></div></div>
-    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_E"><span class="tap">E</span></div></div>
-    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_R"><span class="tap">R</span></div></div>
-    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_T"><span class="tap">T</span></div></div>
-    <div class="pk" style="left:0px;top:78px"><div class="key normal" title="KC_A"><span class="tap">A</span></div></div>
-    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_S"><span class="tap">S</span></div></div>
-    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_D"><span class="tap">D</span></div></div>
-    <div class="pk" style="left:198px;top:72px"><div class="key modtap" title="LALT_T(KC_F)"><span class="tap">F</span><span class="hold">Alt</span></div></div>
-    <div class="pk" style="left:264px;top:78px"><div class="key modtap" title="RSFT_T(KC_G)"><span class="tap">G</span><span class="hold">Sft</span></div></div>
-    <div class="pk" style="left:0px;top:144px"><div class="key normal" title="KC_Z"><span class="tap">Z</span></div></div>
-    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_X"><span class="tap">X</span></div></div>
-    <div class="pk" style="left:132px;top:132px"><div class="key normal" title="KC_C"><span class="tap">C</span></div></div>
-    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_V"><span class="tap">V</span></div></div>
-    <div class="pk" style="left:264px;top:144px"><div class="key normal" title="KC_B"><span class="tap">B</span></div></div>
-    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" title="KC_ENTER"><span class="tap">↩</span></div></div>
-    <div class="pk thumb" style="left:198px;top:224px"><div class="key layertap" title="LT1(KC_TAB)"><span class="tap">Tab</span><span class="hold">L1</span></div></div>
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" data-raw="KC_Q" title="KC_Q"><span class="tap">Q</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" data-raw="KC_W" title="KC_W"><span class="tap">W</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" data-raw="KC_E" title="KC_E"><span class="tap">E</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" data-raw="KC_R" title="KC_R"><span class="tap">R</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" data-raw="KC_T" title="KC_T"><span class="tap">T</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key normal" data-raw="KC_A" title="KC_A"><span class="tap">A</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" data-raw="KC_S" title="KC_S"><span class="tap">S</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" data-raw="KC_D" title="KC_D"><span class="tap">D</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key modtap" data-raw="LALT_T(KC_F)" title="LALT_T(KC_F)"><span class="tap">F</span><span class="hold">Alt</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key modtap" data-raw="RSFT_T(KC_G)" title="RSFT_T(KC_G)"><span class="tap">G</span><span class="hold">Sft</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key normal" data-raw="KC_Z" title="KC_Z"><span class="tap">Z</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" data-raw="KC_X" title="KC_X"><span class="tap">X</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key normal" data-raw="KC_C" title="KC_C"><span class="tap">C</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" data-raw="KC_V" title="KC_V"><span class="tap">V</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key normal" data-raw="KC_B" title="KC_B"><span class="tap">B</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" data-raw="KC_ENTER" title="KC_ENTER"><span class="tap">↩</span></div></div>
+    <div class="pk thumb" style="left:198px;top:224px"><div class="key layertap" data-raw="LT1(KC_TAB)" title="LT1(KC_TAB)"><span class="tap">Tab</span><span class="hold">L1</span></div></div>
   </div>
   <div class="half">
-    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_Y"><span class="tap">Y</span></div></div>
-    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_U"><span class="tap">U</span></div></div>
-    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_I"><span class="tap">I</span></div></div>
-    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_O"><span class="tap">O</span></div></div>
-    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_P"><span class="tap">P</span></div></div>
-    <div class="pk" style="left:0px;top:78px"><div class="key modtap" title="RSFT_T(KC_H)"><span class="tap">H</span><span class="hold">Sft</span></div></div>
-    <div class="pk" style="left:66px;top:72px"><div class="key modtap" title="LCTL_T(KC_J)"><span class="tap">J</span><span class="hold">Ctl</span></div></div>
-    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_K"><span class="tap">K</span></div></div>
-    <div class="pk" style="left:198px;top:72px"><div class="key normal" title="KC_L"><span class="tap">L</span></div></div>
-    <div class="pk" style="left:264px;top:78px"><div class="key normal" title="KC_SCOLON"><span class="tap">;</span></div></div>
-    <div class="pk" style="left:0px;top:144px"><div class="key normal" title="KC_N"><span class="tap">N</span></div></div>
-    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_M"><span class="tap">M</span></div></div>
-    <div class="pk" style="left:132px;top:132px"><div class="key normal" title="KC_COMMA"><span class="tap">,</span></div></div>
-    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_DOT"><span class="tap">.</span></div></div>
-    <div class="pk" style="left:264px;top:144px"><div class="key modtap" title="RALT_T(KC_SLASH)"><span class="tap">/</span><span class="hold">Ag</span></div></div>
-    <div class="pk thumb" style="left:66px;top:224px"><div class="key layertap" title="LT2(KC_SPACE)"><span class="tap">Space</span><span class="hold">L2</span></div></div>
-    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" title="KC_BSPACE"><span class="tap">⌫</span></div></div>
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" data-raw="KC_Y" title="KC_Y"><span class="tap">Y</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" data-raw="KC_U" title="KC_U"><span class="tap">U</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" data-raw="KC_I" title="KC_I"><span class="tap">I</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" data-raw="KC_O" title="KC_O"><span class="tap">O</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" data-raw="KC_P" title="KC_P"><span class="tap">P</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key modtap" data-raw="RSFT_T(KC_H)" title="RSFT_T(KC_H)"><span class="tap">H</span><span class="hold">Sft</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key modtap" data-raw="LCTL_T(KC_J)" title="LCTL_T(KC_J)"><span class="tap">J</span><span class="hold">Ctl</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" data-raw="KC_K" title="KC_K"><span class="tap">K</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key normal" data-raw="KC_L" title="KC_L"><span class="tap">L</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key normal" data-raw="KC_SCOLON" title="KC_SCOLON"><span class="tap">;</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key normal" data-raw="KC_N" title="KC_N"><span class="tap">N</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" data-raw="KC_M" title="KC_M"><span class="tap">M</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key normal" data-raw="KC_COMMA" title="KC_COMMA"><span class="tap">,</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" data-raw="KC_DOT" title="KC_DOT"><span class="tap">.</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key modtap" data-raw="RALT_T(KC_SLASH)" title="RALT_T(KC_SLASH)"><span class="tap">/</span><span class="hold">Ag</span></div></div>
+    <div class="pk thumb" style="left:66px;top:224px"><div class="key layertap" data-raw="LT2(KC_SPACE)" title="LT2(KC_SPACE)"><span class="tap">Space</span><span class="hold">L2</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" data-raw="KC_BSPACE" title="KC_BSPACE"><span class="tap">⌫</span></div></div>
   </div>
 </div></div>
 <div class="panel " id="p1" data-label="Layer 1"><div class="keyboard">
   <div class="half">
-    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_1"><span class="tap">1</span></div></div>
-    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_2"><span class="tap">2</span></div></div>
-    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_3"><span class="tap">3</span></div></div>
-    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_4"><span class="tap">4</span></div></div>
-    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_5"><span class="tap">5</span></div></div>
-    <div class="pk" style="left:0px;top:78px"><div class="key normal" title="KC_HOME"><span class="tap">Home</span></div></div>
-    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_PGUP"><span class="tap">PgUp</span></div></div>
-    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_PGDOWN"><span class="tap">PgDn</span></div></div>
-    <div class="pk" style="left:198px;top:72px"><div class="key normal" title="KC_END"><span class="tap">End</span></div></div>
-    <div class="pk" style="left:264px;top:78px"><div class="key special" title="KC_GESC"><span class="tap">Esc</span></div></div>
-    <div class="pk" style="left:0px;top:144px"><div class="key combo" title="RALT(KC_GRAVE)"><span class="tap">Ag+`</span></div></div>
-    <div class="pk" style="left:66px;top:138px"><div class="key combo" title="LSFT(KC_RBRACKET)"><span class="tap">⇧]</span></div></div>
-    <div class="pk" style="left:132px;top:132px"><div class="key combo" title="C_S(KC_P)"><span class="tap">C+S P</span></div></div>
-    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_COPY"><span class="tap">Copy</span></div></div>
-    <div class="pk" style="left:264px;top:144px"><div class="key normal" title="KC_PSTE"><span class="tap">Paste</span></div></div>
-    <div class="pk thumb" style="left:132px;top:231px"><div class="key combo" title="LSFT(KC_ENTER)"><span class="tap">⇧↩</span></div></div>
-    <div class="pk thumb" style="left:198px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" data-raw="KC_1" title="KC_1"><span class="tap">1</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" data-raw="KC_2" title="KC_2"><span class="tap">2</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" data-raw="KC_3" title="KC_3"><span class="tap">3</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" data-raw="KC_4" title="KC_4"><span class="tap">4</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" data-raw="KC_5" title="KC_5"><span class="tap">5</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key normal" data-raw="KC_HOME" title="KC_HOME"><span class="tap">Home</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" data-raw="KC_PGUP" title="KC_PGUP"><span class="tap">PgUp</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" data-raw="KC_PGDOWN" title="KC_PGDOWN"><span class="tap">PgDn</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key normal" data-raw="KC_END" title="KC_END"><span class="tap">End</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key special" data-raw="KC_GESC" title="KC_GESC"><span class="tap">Esc</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key combo" data-raw="RALT(KC_GRAVE)" title="RALT(KC_GRAVE)"><span class="tap">Ag+`</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key combo" data-raw="LSFT(KC_RBRACKET)" title="LSFT(KC_RBRACKET)"><span class="tap">⇧]</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key combo" data-raw="C_S(KC_P)" title="C_S(KC_P)"><span class="tap">C+S P</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" data-raw="KC_COPY" title="KC_COPY"><span class="tap">Copy</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key normal" data-raw="KC_PSTE" title="KC_PSTE"><span class="tap">Paste</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key combo" data-raw="LSFT(KC_ENTER)" title="LSFT(KC_ENTER)"><span class="tap">⇧↩</span></div></div>
+    <div class="pk thumb" style="left:198px;top:224px"><div class="key trns" data-raw="KC_TRNS" title="KC_TRNS"><span class="tap">▽</span></div></div>
   </div>
   <div class="half">
-    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_6"><span class="tap">6</span></div></div>
-    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_7"><span class="tap">7</span></div></div>
-    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_8"><span class="tap">8</span></div></div>
-    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_9"><span class="tap">9</span></div></div>
-    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_0"><span class="tap">0</span></div></div>
-    <div class="pk" style="left:0px;top:78px"><div class="key normal" title="KC_QUOTE"><span class="tap">&#x27;</span></div></div>
-    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_LEFT"><span class="tap">←</span></div></div>
-    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_UP"><span class="tap">↑</span></div></div>
-    <div class="pk" style="left:198px;top:72px"><div class="key normal" title="KC_DOWN"><span class="tap">↓</span></div></div>
-    <div class="pk" style="left:264px;top:78px"><div class="key normal" title="KC_RIGHT"><span class="tap">→</span></div></div>
-    <div class="pk" style="left:0px;top:144px"><div class="key special" title="KC_ENTER"><span class="tap">↩</span></div></div>
-    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_KP_SLASH"><span class="tap">KP/</span></div></div>
-    <div class="pk" style="left:132px;top:132px"><div class="key normal" title="KC_MUTE"><span class="tap">Mute</span></div></div>
-    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_VOLD"><span class="tap">Vol-</span></div></div>
-    <div class="pk" style="left:264px;top:144px"><div class="key normal" title="KC_VOLU"><span class="tap">Vol+</span></div></div>
-    <div class="pk thumb" style="left:66px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
-    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" title="KC_DELETE"><span class="tap">Del</span></div></div>
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" data-raw="KC_6" title="KC_6"><span class="tap">6</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" data-raw="KC_7" title="KC_7"><span class="tap">7</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" data-raw="KC_8" title="KC_8"><span class="tap">8</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" data-raw="KC_9" title="KC_9"><span class="tap">9</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" data-raw="KC_0" title="KC_0"><span class="tap">0</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key normal" data-raw="KC_QUOTE" title="KC_QUOTE"><span class="tap">&#x27;</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" data-raw="KC_LEFT" title="KC_LEFT"><span class="tap">←</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" data-raw="KC_UP" title="KC_UP"><span class="tap">↑</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key normal" data-raw="KC_DOWN" title="KC_DOWN"><span class="tap">↓</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key normal" data-raw="KC_RIGHT" title="KC_RIGHT"><span class="tap">→</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key special" data-raw="KC_ENTER" title="KC_ENTER"><span class="tap">↩</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" data-raw="KC_KP_SLASH" title="KC_KP_SLASH"><span class="tap">KP/</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key normal" data-raw="KC_MUTE" title="KC_MUTE"><span class="tap">Mute</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" data-raw="KC_VOLD" title="KC_VOLD"><span class="tap">Vol-</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key normal" data-raw="KC_VOLU" title="KC_VOLU"><span class="tap">Vol+</span></div></div>
+    <div class="pk thumb" style="left:66px;top:224px"><div class="key trns" data-raw="KC_TRNS" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" data-raw="KC_DELETE" title="KC_DELETE"><span class="tap">Del</span></div></div>
   </div>
 </div></div>
 <div class="panel " id="p2" data-label="Layer 2"><div class="keyboard">
   <div class="half">
-    <div class="pk" style="left:0px;top:12px"><div class="key func" title="KC_F1"><span class="tap">F1</span></div></div>
-    <div class="pk" style="left:66px;top:6px"><div class="key func" title="KC_F2"><span class="tap">F2</span></div></div>
-    <div class="pk" style="left:132px;top:0px"><div class="key func" title="KC_F3"><span class="tap">F3</span></div></div>
-    <div class="pk" style="left:198px;top:6px"><div class="key func" title="KC_F4"><span class="tap">F4</span></div></div>
-    <div class="pk" style="left:264px;top:12px"><div class="key func" title="KC_F5"><span class="tap">F5</span></div></div>
-    <div class="pk" style="left:0px;top:78px"><div class="key combo" title="RCTL(KC_J)"><span class="tap">C+J</span></div></div>
-    <div class="pk" style="left:66px;top:72px"><div class="key combo" title="RCTL(KC_Y)"><span class="tap">C+Y</span></div></div>
-    <div class="pk" style="left:132px;top:66px"><div class="key combo" title="LCTL(KC_U)"><span class="tap">C+U</span></div></div>
-    <div class="pk" style="left:198px;top:72px"><div class="key combo" title="C_S(KC_P)"><span class="tap">C+S P</span></div></div>
-    <div class="pk" style="left:264px;top:78px"><div class="key combo" title="RGUI(KC_L)"><span class="tap">⊞+L</span></div></div>
-    <div class="pk" style="left:0px;top:144px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
-    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_NONUS_BSLASH"><span class="tap">&lt;</span></div></div>
-    <div class="pk" style="left:132px;top:132px"><div class="key combo" title="RSFT(KC_NONUS_BSLASH)"><span class="tap">⇧&lt;</span></div></div>
-    <div class="pk" style="left:198px;top:138px"><div class="key func" title="KC_F11"><span class="tap">F11</span></div></div>
-    <div class="pk" style="left:264px;top:144px"><div class="key func" title="KC_F12"><span class="tap">F12</span></div></div>
-    <div class="pk thumb" style="left:132px;top:231px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
-    <div class="pk thumb" style="left:198px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk" style="left:0px;top:12px"><div class="key func" data-raw="KC_F1" title="KC_F1"><span class="tap">F1</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key func" data-raw="KC_F2" title="KC_F2"><span class="tap">F2</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key func" data-raw="KC_F3" title="KC_F3"><span class="tap">F3</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key func" data-raw="KC_F4" title="KC_F4"><span class="tap">F4</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key func" data-raw="KC_F5" title="KC_F5"><span class="tap">F5</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key combo" data-raw="RCTL(KC_J)" title="RCTL(KC_J)"><span class="tap">C+J</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key combo" data-raw="RCTL(KC_Y)" title="RCTL(KC_Y)"><span class="tap">C+Y</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key combo" data-raw="LCTL(KC_U)" title="LCTL(KC_U)"><span class="tap">C+U</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key combo" data-raw="C_S(KC_P)" title="C_S(KC_P)"><span class="tap">C+S P</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key combo" data-raw="RGUI(KC_L)" title="RGUI(KC_L)"><span class="tap">⊞+L</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key trns" data-raw="KC_TRNS" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" data-raw="KC_NONUS_BSLASH" title="KC_NONUS_BSLASH"><span class="tap">&lt;</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key combo" data-raw="RSFT(KC_NONUS_BSLASH)" title="RSFT(KC_NONUS_BSLASH)"><span class="tap">⇧&lt;</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key func" data-raw="KC_F11" title="KC_F11"><span class="tap">F11</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key func" data-raw="KC_F12" title="KC_F12"><span class="tap">F12</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key trns" data-raw="KC_TRNS" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk thumb" style="left:198px;top:224px"><div class="key trns" data-raw="KC_TRNS" title="KC_TRNS"><span class="tap">▽</span></div></div>
   </div>
   <div class="half">
-    <div class="pk" style="left:0px;top:12px"><div class="key func" title="KC_F6"><span class="tap">F6</span></div></div>
-    <div class="pk" style="left:66px;top:6px"><div class="key func" title="KC_F7"><span class="tap">F7</span></div></div>
-    <div class="pk" style="left:132px;top:0px"><div class="key combo" title="LSFT(KC_8)"><span class="tap">⇧8</span></div></div>
-    <div class="pk" style="left:198px;top:6px"><div class="key combo" title="LSFT(KC_9)"><span class="tap">⇧9</span></div></div>
-    <div class="pk" style="left:264px;top:12px"><div class="key func" title="KC_F10"><span class="tap">F10</span></div></div>
-    <div class="pk" style="left:0px;top:78px"><div class="key combo" title="LSFT(KC_BSLASH)"><span class="tap">⇧\</span></div></div>
-    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_RBRACKET"><span class="tap">]</span></div></div>
-    <div class="pk" style="left:132px;top:66px"><div class="key combo" title="RALT(KC_LBRACKET)"><span class="tap">Ag+[</span></div></div>
-    <div class="pk" style="left:198px;top:72px"><div class="key combo" title="RALT(KC_RBRACKET)"><span class="tap">Ag+]</span></div></div>
-    <div class="pk" style="left:264px;top:78px"><div class="key normal" title="KC_MINUS"><span class="tap">-</span></div></div>
-    <div class="pk" style="left:0px;top:144px"><div class="key combo" title="LSFT(KC_1)"><span class="tap">⇧1</span></div></div>
-    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_PSCREEN"><span class="tap">PrtSc</span></div></div>
-    <div class="pk" style="left:132px;top:132px"><div class="key combo" title="RALT(KC_QUOTE)"><span class="tap">Ag+&#x27;</span></div></div>
-    <div class="pk" style="left:198px;top:138px"><div class="key combo" title="RALT(KC_BSLASH)"><span class="tap">Ag+\</span></div></div>
-    <div class="pk" style="left:264px;top:144px"><div class="key combo" title="LSFT(KC_MINUS)"><span class="tap">⇧-</span></div></div>
-    <div class="pk thumb" style="left:66px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
-    <div class="pk thumb" style="left:132px;top:231px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk" style="left:0px;top:12px"><div class="key func" data-raw="KC_F6" title="KC_F6"><span class="tap">F6</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key func" data-raw="KC_F7" title="KC_F7"><span class="tap">F7</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key combo" data-raw="LSFT(KC_8)" title="LSFT(KC_8)"><span class="tap">⇧8</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key combo" data-raw="LSFT(KC_9)" title="LSFT(KC_9)"><span class="tap">⇧9</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key func" data-raw="KC_F10" title="KC_F10"><span class="tap">F10</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key combo" data-raw="LSFT(KC_BSLASH)" title="LSFT(KC_BSLASH)"><span class="tap">⇧\</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" data-raw="KC_RBRACKET" title="KC_RBRACKET"><span class="tap">]</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key combo" data-raw="RALT(KC_LBRACKET)" title="RALT(KC_LBRACKET)"><span class="tap">Ag+[</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key combo" data-raw="RALT(KC_RBRACKET)" title="RALT(KC_RBRACKET)"><span class="tap">Ag+]</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key normal" data-raw="KC_MINUS" title="KC_MINUS"><span class="tap">-</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key combo" data-raw="LSFT(KC_1)" title="LSFT(KC_1)"><span class="tap">⇧1</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" data-raw="KC_PSCREEN" title="KC_PSCREEN"><span class="tap">PrtSc</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key combo" data-raw="RALT(KC_QUOTE)" title="RALT(KC_QUOTE)"><span class="tap">Ag+&#x27;</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key combo" data-raw="RALT(KC_BSLASH)" title="RALT(KC_BSLASH)"><span class="tap">Ag+\</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key combo" data-raw="LSFT(KC_MINUS)" title="LSFT(KC_MINUS)"><span class="tap">⇧-</span></div></div>
+    <div class="pk thumb" style="left:66px;top:224px"><div class="key trns" data-raw="KC_TRNS" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key trns" data-raw="KC_TRNS" title="KC_TRNS"><span class="tap">▽</span></div></div>
   </div>
 </div></div>
 
@@ -426,11 +451,198 @@ h1 { font-size: 1.65rem; color: var(--h1); margin-bottom: 5px; }
   </div>
 
   <script>
+
+/* ── US baseline keycode → display label ── */
+const US_KC = {
+  KC_TRNS:'▽', KC_NO:'',
+  KC_SPACE:'Space', KC_SPC:'Space', KC_BSPACE:'⌫', KC_BSPC:'⌫',
+  KC_ENTER:'↩', KC_ENT:'↩', KC_TAB:'Tab', KC_ESC:'Esc', KC_GESC:'Esc',
+  KC_DELETE:'Del', KC_DEL:'Del',
+  KC_LSFT:'Shift', KC_RSFT:'Shift', KC_LALT:'Alt', KC_RALT:'AltGr',
+  KC_LCTL:'Ctrl', KC_RCTL:'Ctrl', KC_LGUI:'⊞', KC_RGUI:'⊞',
+  KC_LEFT:'←', KC_RIGHT:'→', KC_UP:'↑', KC_DOWN:'↓',
+  KC_HOME:'Home', KC_END:'End', KC_PGUP:'PgUp', KC_PGDOWN:'PgDn', KC_PGDN:'PgDn',
+  KC_SCOLON:';', KC_SCLN:';', KC_COMMA:',', KC_COMM:',',
+  KC_DOT:'.', KC_SLASH:'/', KC_SLSH:'/',
+  KC_MINUS:'-', KC_MINS:'-', KC_EQUAL:'=', KC_EQL:'=',
+  KC_LBRACKET:'[', KC_LBRC:'[', KC_RBRACKET:']', KC_RBRC:']',
+  KC_BSLASH:'\\', KC_BSLS:'\\', KC_QUOTE:"'", KC_QUOT:"'",
+  KC_GRAVE:'`', KC_GRV:'`', KC_NONUS_BSLASH:'<',
+  KC_VOLU:'Vol+', KC_VOLD:'Vol-', KC_MUTE:'Mute', KC_KP_SLASH:'KP/',
+  KC_PSCREEN:'PrtSc', KC_PSCR:'PrtSc', KC_COPY:'Copy', KC_PSTE:'Paste',
+};
+for (let i=1;i<=12;i++) US_KC['KC_F'+i]='F'+i;
+for (let i=0;i<=9;i++) US_KC['KC_'+i]=String(i);
+
+/* ── US shifted characters (for LSFT combos) ── */
+const US_SHIFT = {
+  KC_GRAVE:'~', KC_MINUS:'_', KC_EQUAL:'+',
+  KC_LBRACKET:'{', KC_RBRACKET:'}', KC_BSLASH:'|',
+  KC_SCOLON:':', KC_QUOTE:'"', KC_SLASH:'?', KC_NONUS_BSLASH:'>',
+  KC_1:'!', KC_2:'@', KC_3:'#', KC_4:'$', KC_5:'%',
+  KC_6:'^', KC_7:'&', KC_8:'*', KC_9:'(', KC_0:')',
+  KC_COMMA:'<', KC_DOT:'>',
+};
+
+/* ── Layout override tables ── */
+const LAYOUTS = {
+  US: { name:'US ANSI',       plain:{}, shift:{}, altgr:{} },
+  ES: {
+    name:'Español (ES)',
+    plain: {
+      KC_GRAVE:'º',   KC_MINUS:"'",  KC_EQUAL:'¡',
+      KC_LBRACKET:'`',KC_RBRACKET:'+',KC_BSLASH:'ç',
+      KC_SCOLON:'ñ',  KC_QUOTE:'´',  KC_NONUS_BSLASH:'<', KC_SLASH:'-',
+    },
+    shift: {
+      KC_GRAVE:'ª',   KC_MINUS:'?',  KC_EQUAL:'¿',
+      KC_LBRACKET:'^',KC_RBRACKET:'*',KC_BSLASH:'Ç',
+      KC_SCOLON:'Ñ',  KC_QUOTE:'¨',  KC_NONUS_BSLASH:'>',KC_SLASH:'_',
+      KC_2:'"', KC_3:'·', KC_6:'&', KC_7:'/', KC_8:'(', KC_9:')', KC_0:'=',
+    },
+    altgr: {
+      KC_GRAVE:'\\',  KC_LBRACKET:'[',KC_RBRACKET:']',
+      KC_BSLASH:'}',  KC_QUOTE:'{',   KC_NONUS_BSLASH:'|',
+      KC_1:'|', KC_2:'@', KC_3:'#',   KC_4:'~',
+    },
+  },
+  UK: {
+    name:'UK',
+    plain: { KC_NONUS_BSLASH:'\\', KC_BSLASH:'#' },
+    shift: { KC_2:'"', KC_3:'£',   KC_BSLASH:'~', KC_NONUS_BSLASH:'|' },
+    altgr: { KC_4:'€' },
+  },
+  DE: {
+    name:'Deutsch (DE)',
+    plain: {
+      KC_Y:'z',      KC_Z:'y',
+      KC_GRAVE:'^',  KC_MINUS:'ß',  KC_EQUAL:'´',
+      KC_LBRACKET:'ü',KC_RBRACKET:'+',KC_BSLASH:'#',
+      KC_SCOLON:'ö', KC_QUOTE:'ä',  KC_NONUS_BSLASH:'<', KC_SLASH:'-',
+    },
+    shift: {
+      KC_Y:'Z',      KC_Z:'Y',
+      KC_GRAVE:'°',  KC_MINUS:'?',  KC_EQUAL:'`',
+      KC_LBRACKET:'Ü',KC_RBRACKET:'*',KC_BSLASH:"'",
+      KC_SCOLON:'Ö', KC_QUOTE:'Ä',  KC_NONUS_BSLASH:'>',KC_SLASH:'_',
+      KC_2:'"', KC_3:'§', KC_6:'&', KC_7:'/', KC_8:'(', KC_9:')', KC_0:'=',
+    },
+    altgr: {
+      KC_Q:'@', KC_E:'€', KC_2:'²', KC_3:'³',
+      KC_7:'{', KC_8:'[', KC_9:']', KC_0:'}',
+      KC_MINUS:'\\', KC_RBRACKET:'~', KC_NONUS_BSLASH:'|',
+    },
+  },
+  FR: {
+    name:'Français (FR)',
+    plain: {
+      KC_GRAVE:'²',
+      KC_1:'&', KC_2:'é', KC_3:'"',  KC_4:"'", KC_5:'(', KC_6:'-',
+      KC_7:'è', KC_8:'_', KC_9:'ç',  KC_0:'à', KC_MINUS:')', KC_EQUAL:'=',
+      KC_Q:'a', KC_W:'z', KC_LBRACKET:'^',KC_RBRACKET:'$',
+      KC_A:'q', KC_SCOLON:'m', KC_QUOTE:'ù', KC_BSLASH:'*',
+      KC_NONUS_BSLASH:'<',
+      KC_Z:'w', KC_M:',', KC_COMMA:';', KC_DOT:':', KC_SLASH:'!',
+    },
+    shift: {
+      KC_1:'1', KC_2:'2', KC_3:'3',  KC_4:'4', KC_5:'5', KC_6:'6',
+      KC_7:'7', KC_8:'8', KC_9:'9',  KC_0:'0', KC_MINUS:'°', KC_EQUAL:'+',
+      KC_Q:'A', KC_W:'Z', KC_LBRACKET:'¨',KC_RBRACKET:'£',
+      KC_A:'Q', KC_SCOLON:'M', KC_QUOTE:'%', KC_BSLASH:'µ',
+      KC_NONUS_BSLASH:'>',
+      KC_Z:'W', KC_M:'?', KC_COMMA:'.', KC_DOT:'/', KC_SLASH:'§',
+    },
+    altgr: {
+      KC_0:'@', KC_3:'#', KC_4:'{', KC_5:'[', KC_6:'|',
+      KC_7:'`', KC_8:'\\', KC_9:'^', KC_MINUS:']', KC_EQUAL:'}', KC_E:'€',
+    },
+  },
+};
+
+const MOD_J = {
+  LALT:'Alt', RALT:'Ag', LSFT:'Sft', RSFT:'Sft',
+  LCTL:'Ctl', RCTL:'Ctl', LGUI:'⊞',  RGUI:'⊞',
+};
+const SPECIALS = new Set(['KC_SPACE','KC_SPC','KC_BSPACE','KC_BSPC','KC_ENTER','KC_ENT','KC_TAB','KC_ESC','KC_GESC','KC_DELETE','KC_DEL']);
+const MODKEYS  = new Set(['KC_LSFT','KC_RSFT','KC_LALT','KC_RALT','KC_LCTL','KC_RCTL','KC_LGUI','KC_RGUI']);
+
+function kcLabel(code, lid) {
+  const p = LAYOUTS[lid]?.plain;
+  if (p && p[code] !== undefined) return p[code];
+  return US_KC[code] !== undefined ? US_KC[code] : code.replace(/^KC_/,'');
+}
+function shiftOf(code, lid) {
+  const s = LAYOUTS[lid]?.shift;
+  if (s && s[code] !== undefined) return s[code];
+  if (US_SHIFT[code] !== undefined) return US_SHIFT[code];
+  const plain = kcLabel(code, lid);
+  return /^[a-zA-Z]$/.test(plain) ? plain.toUpperCase() : '⇧'+plain;
+}
+function altgrOf(code, lid) {
+  const a = LAYOUTS[lid]?.altgr;
+  return (a && a[code] !== undefined) ? a[code] : null;
+}
+
+function parseKey(raw, lid) {
+  if (raw === '-1' || raw === -1) return {tap:'', hold:'', cls:'none'};
+  if (raw === 'KC_TRNS') return {tap:'▽', hold:'', cls:'trns'};
+  if (raw === 'KC_NO')   return {tap:'',  hold:'', cls:'empty'};
+
+  let m;
+  // Mod-tap
+  if ((m = raw.match(/^([A-Z]+)_T\((.+)\)$/)))
+    return {tap: kcLabel(m[2],lid), hold: MOD_J[m[1]]||m[1], cls:'modtap'};
+  // Layer-tap
+  if ((m = raw.match(/^LT(\d+)\((.+)\)$/)))
+    return {tap: kcLabel(m[2],lid), hold:'L'+m[1], cls:'layertap'};
+  // Ctrl+Shift
+  if ((m = raw.match(/^C_S\((.+)\)$/)))
+    return {tap:'C+S '+kcLabel(m[1],lid), hold:'', cls:'combo'};
+  // Single modifier wrapper
+  if ((m = raw.match(/^([A-Z]+)\((.+)\)$/))) {
+    const [,fn,inner] = m;
+    if (fn==='LSFT'||fn==='RSFT') return {tap: shiftOf(inner,lid), hold:'', cls:'combo'};
+    if (fn==='RALT'||fn==='LALT') {
+      const ag = altgrOf(inner,lid);
+      return {tap: ag!==null ? ag : 'Ag+'+kcLabel(inner,lid), hold:'', cls:'combo'};
+    }
+    const pfx = {RCTL:'C+',LCTL:'C+',RGUI:'⊞+',LGUI:'⊞+'}[fn]||fn+'+';
+    return {tap: pfx+kcLabel(inner,lid), hold:'', cls:'combo'};
+  }
+  // Plain
+  const label = kcLabel(raw, lid);
+  const cls = MODKEYS.has(raw) ? 'modifier' : /^KC_F\d+$/.test(raw) ? 'func' : SPECIALS.has(raw) ? 'special' : 'normal';
+  return {tap: label, hold:'', cls};
+}
+
+function applyLayout(lid) {
+  document.querySelectorAll('.layout-btn').forEach(b => b.classList.remove('active'));
+  const btn = document.getElementById('layout-'+lid);
+  if (btn) btn.classList.add('active');
+
+  document.querySelectorAll('.key[data-raw]').forEach(el => {
+    const raw = el.dataset.raw;
+    if (!raw) return;
+    const {tap, hold, cls} = parseKey(raw, lid);
+    el.className = 'key ' + cls;
+
+    let te = el.querySelector('.tap');
+    if (!te) { te = document.createElement('span'); te.className='tap'; el.prepend(te); }
+    te.textContent = tap;
+
+    let he = el.querySelector('.hold');
+    if (hold) {
+      if (!he) { he = document.createElement('span'); he.className='hold'; el.appendChild(he); }
+      he.textContent = hold;
+    } else if (he) { he.remove(); }
+  });
+}
+
 function show(n) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('p' + n).classList.add('active');
-  document.getElementById('t' + n).classList.add('active');
+  document.getElementById('p'+n).classList.add('active');
+  document.getElementById('t'+n).classList.add('active');
 }
 
   </script>
