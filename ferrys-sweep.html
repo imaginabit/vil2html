@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ferrys-sweep — Keymap</title>
+  <style>
+/* ── CSS variables: dark mode (default) ── */
+:root {
+  --bg:           #0f0f1a;
+  --bg-kb:        #0a0a14;
+  --border-kb:    #1e1e34;
+  --text:         #ccd;
+  --h1:           #90cbf0;
+  --sub:          #556;
+  --legend-sep:   #1e1e2e;
+  --legend-h3:    #445;
+  --legend-text:  #557;
+
+  --tab-bg:       #1a1a2e;
+  --tab-border:   #343460;
+  --tab-text:     #778;
+  --tab-hov-bg:   #22223c;
+  --tab-hov-text: #bbc;
+  --tab-act-bg:   #2a2a7a;
+  --tab-act-bdr:  #5858cc;
+
+  --btn-bg:       #1e3a1e;
+  --btn-border:   #2e6a2e;
+  --btn-text:     #80d880;
+  --btn-hov-bg:   #274a27;
+  --btn-hov-text: #a0f0a0;
+
+  --k-normal-bg:  #212138; --k-normal-bdr: #383868; --k-normal-txt: #d8d8ff;
+  --k-special-bg: #182f50; --k-special-bdr: #28609a; --k-special-txt: #8cd4f8;
+  --k-mod-bg:     #361650; --k-mod-bdr:    #5e2c9a; --k-mod-txt:    #d0a0f8;
+  --k-func-bg:    #122e22; --k-func-bdr:   #20663c; --k-func-txt:   #80eea0;
+  --k-mt-bg:      #243318; --k-mt-bdr:     #4a6c24; --k-mt-txt:     #c4e490;
+  --k-lt-bg:      #163434; --k-lt-bdr:     #245e5e; --k-lt-txt:     #80e4e4;
+  --k-combo-bg:   #33230f; --k-combo-bdr:  #6b5020; --k-combo-txt:  #f0c480;
+  --k-trns-bg:    #0d0d1c; --k-trns-bdr:   #252540; --k-trns-txt:   #303055;
+  --k-empty-bg:   #090912; --k-empty-bdr:  #181826; --k-empty-txt:  #202030;
+
+  --hold-txt:     #99a;
+  --hold-mt-txt:  #b4d864;
+  --hold-lt-txt:  #64d8d8;
+  --hold-bg:      rgba(0,0,0,.45);
+  --shadow-kb:    0 8px 40px rgba(0,0,0,.6);
+  --shadow-key:   0 5px 20px rgba(0,0,0,.7);
+}
+
+/* ── CSS variables: light mode ── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg:           #f0f0f8;
+    --bg-kb:        #e4e4f2;
+    --border-kb:    #c0c0d8;
+    --text:         #223;
+    --h1:           #1a4a80;
+    --sub:          #558;
+    --legend-sep:   #c8c8dc;
+    --legend-h3:    #558;
+    --legend-text:  #446;
+
+    --tab-bg:       #e0e0f0;
+    --tab-border:   #b0b0d0;
+    --tab-text:     #448;
+    --tab-hov-bg:   #d4d4ec;
+    --tab-hov-text: #224;
+    --tab-act-bg:   #3838a0;
+    --tab-act-bdr:  #2828c0;
+
+    --btn-bg:       #d8f0d8;
+    --btn-border:   #50a050;
+    --btn-text:     #1a5a1a;
+    --btn-hov-bg:   #c8e8c8;
+    --btn-hov-text: #0e3a0e;
+
+    --k-normal-bg:  #dde; --k-normal-bdr: #99c; --k-normal-txt: #113;
+    --k-special-bg: #cde; --k-special-bdr: #68a; --k-special-txt: #024;
+    --k-mod-bg:     #dcd; --k-mod-bdr:    #a6c; --k-mod-txt:    #302;
+    --k-func-bg:    #cec; --k-func-bdr:   #6a8; --k-func-txt:   #030;
+    --k-mt-bg:      #deecc8; --k-mt-bdr:  #7aa040; --k-mt-txt:  #1a3a08;
+    --k-lt-bg:      #c8ecea; --k-lt-bdr:  #409898; --k-lt-txt:  #033030;
+    --k-combo-bg:   #fde8c0; --k-combo-bdr: #c09040; --k-combo-txt: #3a1800;
+    --k-trns-bg:    #ebebf4; --k-trns-bdr: #c8c8dc; --k-trns-txt: #aaa;
+    --k-empty-bg:   #e8e8f0; --k-empty-bdr: #d0d0e0; --k-empty-txt: #bbb;
+
+    --hold-txt:     #446;
+    --hold-mt-txt:  #2a6010;
+    --hold-lt-txt:  #106060;
+    --hold-bg:      rgba(0,0,0,.08);
+    --shadow-kb:    0 4px 20px rgba(0,0,0,.15);
+    --shadow-key:   0 3px 12px rgba(0,0,0,.2);
+  }
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  padding: 32px 24px;
+}
+
+h1 { font-size: 1.65rem; color: var(--h1); margin-bottom: 5px; }
+.sub { color: var(--sub); font-size: .82rem; margin-bottom: 24px; letter-spacing: .03em; }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.tab {
+  padding: 7px 18px;
+  background: var(--tab-bg);
+  border: 1px solid var(--tab-border);
+  border-radius: 7px;
+  color: var(--tab-text);
+  cursor: pointer;
+  font-size: .8rem;
+  transition: all .12s;
+}
+.tab:hover  { background: var(--tab-hov-bg); color: var(--tab-hov-text); }
+.tab.active { background: var(--tab-act-bg); border-color: var(--tab-act-bdr); color: #fff; font-weight: 600; }
+
+/* ── Panels ── */
+.panel { display: none; }
+.panel.active { display: block; }
+
+/* ── Keyboard container ── */
+.keyboard {
+  display: flex;
+  gap: 44px;
+  padding: 28px 24px;
+  background: var(--bg-kb);
+  border: 1px solid var(--border-kb);
+  border-radius: 16px;
+  width: fit-content;
+  box-shadow: var(--shadow-kb);
+}
+
+/* ── Each half ── */
+.half {
+  position: relative;
+  width: 324px;
+  height: 310px;
+}
+
+/* ── Key slot ── */
+.pk { position: absolute; }
+
+/* ── Keys ── */
+.key {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+  border: 2px solid transparent;
+  transition: transform .1s, box-shadow .1s;
+  padding: 3px;
+  user-select: none;
+}
+.key:hover { transform: scale(1.10); z-index: 10; box-shadow: var(--shadow-key); }
+
+.key.normal   { background: var(--k-normal-bg);  border-color: var(--k-normal-bdr);  color: var(--k-normal-txt); }
+.key.special  { background: var(--k-special-bg); border-color: var(--k-special-bdr); color: var(--k-special-txt); }
+.key.modifier { background: var(--k-mod-bg);     border-color: var(--k-mod-bdr);     color: var(--k-mod-txt); }
+.key.func     { background: var(--k-func-bg);    border-color: var(--k-func-bdr);    color: var(--k-func-txt); }
+.key.modtap   { background: var(--k-mt-bg);      border-color: var(--k-mt-bdr);      color: var(--k-mt-txt); }
+.key.layertap { background: var(--k-lt-bg);      border-color: var(--k-lt-bdr);      color: var(--k-lt-txt); }
+.key.combo    { background: var(--k-combo-bg);   border-color: var(--k-combo-bdr);   color: var(--k-combo-txt); }
+.key.trns     { background: var(--k-trns-bg);    border-color: var(--k-trns-bdr);    color: var(--k-trns-txt); }
+.key.empty    { background: var(--k-empty-bg);   border-color: var(--k-empty-bdr);   color: var(--k-empty-txt); }
+.key.none     { background: transparent; border: none; pointer-events: none; }
+
+/* Key labels */
+.tap  { font-size: .78rem; font-weight: 700; line-height: 1.15; text-align: center; }
+.hold {
+  font-size: .55rem;
+  color: var(--hold-txt);
+  margin-top: 4px;
+  background: var(--hold-bg);
+  padding: 1px 5px;
+  border-radius: 3px;
+  line-height: 1;
+}
+.key.modtap  .hold { color: var(--hold-mt-txt); }
+.key.layertap .hold { color: var(--hold-lt-txt); }
+
+/* ── Print button ── */
+.print-btn {
+  margin-bottom: 18px;
+  padding: 8px 20px;
+  background: var(--btn-bg);
+  border: 1px solid var(--btn-border);
+  border-radius: 7px;
+  color: var(--btn-text);
+  cursor: pointer;
+  font-size: .82rem;
+  transition: all .12s;
+}
+.print-btn:hover { background: var(--btn-hov-bg); color: var(--btn-hov-text); }
+
+/* ── Legend ── */
+.legend {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--legend-sep);
+}
+.legend h3 {
+  color: var(--legend-h3);
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  margin-bottom: 12px;
+}
+.legend-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+  font-size: .72rem;
+  color: var(--legend-text);
+}
+.legend-row .key {
+  width: auto;
+  min-width: 46px;
+  height: 34px;
+  padding: 2px 8px;
+  border-radius: 5px;
+  flex-shrink: 0;
+}
+.legend-row .tap  { font-size: .65rem; }
+.legend-row .hold { font-size: .50rem; }
+
+/* ── Print styles ── */
+@media print {
+  body { background: #fff !important; color: #000; padding: 10px; }
+  h1   { color: #000 !important; font-size: 1.2rem; }
+  .sub { color: #555; }
+  .tabs, .print-btn { display: none !important; }
+  .panel { display: block !important; page-break-inside: avoid; margin-bottom: 28px; }
+  .panel::before {
+    content: attr(data-label);
+    display: block;
+    font-size: .8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
+  .keyboard { background: #f5f5f5 !important; border: 1px solid #ccc; box-shadow: none; gap: 28px; padding: 16px; }
+  .half { height: 300px; }
+  .key { border-width: 1px !important; }
+  .key.normal   { background: #eef !important; border-color: #99c !important; color: #112 !important; }
+  .key.special  { background: #def !important; border-color: #79c !important; color: #024 !important; }
+  .key.modifier { background: #ede !important; border-color: #a6c !important; color: #302 !important; }
+  .key.func     { background: #dfd !important; border-color: #6a9 !important; color: #020 !important; }
+  .key.modtap   { background: #efd !important; border-color: #8b6 !important; color: #130 !important; }
+  .key.layertap { background: #dff !important; border-color: #6aa !important; color: #023 !important; }
+  .key.combo    { background: #fec !important; border-color: #b8a !important; color: #302 !important; }
+  .key.trns     { background: #f9f9f9 !important; border-color: #ccc !important; color: #aaa !important; }
+  .key.empty    { background: #f0f0f0 !important; border-color: #ddd !important; color: #ccc !important; }
+  .tap  { color: inherit; }
+  .hold { background: rgba(0,0,0,.08); color: #444; }
+  .legend { border-top: 1px solid #ccc; }
+  .legend h3    { color: #666; }
+  .legend-row   { color: #555; }
+}
+
+  </style>
+</head>
+<body>
+  <h1>⌨ ferrys-sweep</h1>
+  <p class="sub">Ferris Sweep · 34 keys · 3 active layers of 6</p>
+
+  <button class="print-btn" onclick="window.print()">🖨 Imprimir / Print</button>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show(0)" id="t0">Layer 0</button>
+    <button class="tab " onclick="show(1)" id="t1">Layer 1</button>
+    <button class="tab " onclick="show(2)" id="t2">Layer 2</button>
+    
+  </div>
+
+  <div class="panels">
+<div class="panel active" id="p0" data-label="Layer 0"><div class="keyboard">
+  <div class="half">
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_Q"><span class="tap">Q</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_W"><span class="tap">W</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_E"><span class="tap">E</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_R"><span class="tap">R</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_T"><span class="tap">T</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key normal" title="KC_A"><span class="tap">A</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_S"><span class="tap">S</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_D"><span class="tap">D</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key modtap" title="LALT_T(KC_F)"><span class="tap">F</span><span class="hold">Alt</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key modtap" title="RSFT_T(KC_G)"><span class="tap">G</span><span class="hold">Sft</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key normal" title="KC_Z"><span class="tap">Z</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_X"><span class="tap">X</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key normal" title="KC_C"><span class="tap">C</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_V"><span class="tap">V</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key normal" title="KC_B"><span class="tap">B</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" title="KC_ENTER"><span class="tap">↩</span></div></div>
+    <div class="pk thumb" style="left:198px;top:224px"><div class="key layertap" title="LT1(KC_TAB)"><span class="tap">Tab</span><span class="hold">L1</span></div></div>
+  </div>
+  <div class="half">
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_Y"><span class="tap">Y</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_U"><span class="tap">U</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_I"><span class="tap">I</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_O"><span class="tap">O</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_P"><span class="tap">P</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key modtap" title="RSFT_T(KC_H)"><span class="tap">H</span><span class="hold">Sft</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key modtap" title="LCTL_T(KC_J)"><span class="tap">J</span><span class="hold">Ctl</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_K"><span class="tap">K</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key normal" title="KC_L"><span class="tap">L</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key normal" title="KC_SCOLON"><span class="tap">;</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key normal" title="KC_N"><span class="tap">N</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_M"><span class="tap">M</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key normal" title="KC_COMMA"><span class="tap">,</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_DOT"><span class="tap">.</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key modtap" title="RALT_T(KC_SLASH)"><span class="tap">/</span><span class="hold">Ag</span></div></div>
+    <div class="pk thumb" style="left:66px;top:224px"><div class="key layertap" title="LT2(KC_SPACE)"><span class="tap">Space</span><span class="hold">L2</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" title="KC_BSPACE"><span class="tap">⌫</span></div></div>
+  </div>
+</div></div>
+<div class="panel " id="p1" data-label="Layer 1"><div class="keyboard">
+  <div class="half">
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_1"><span class="tap">1</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_2"><span class="tap">2</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_3"><span class="tap">3</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_4"><span class="tap">4</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_5"><span class="tap">5</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key normal" title="KC_HOME"><span class="tap">Home</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_PGUP"><span class="tap">PgUp</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_PGDOWN"><span class="tap">PgDn</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key normal" title="KC_END"><span class="tap">End</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key special" title="KC_GESC"><span class="tap">Esc</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key combo" title="RALT(KC_GRAVE)"><span class="tap">Ag+`</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key combo" title="LSFT(KC_RBRACKET)"><span class="tap">⇧]</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key combo" title="C_S(KC_P)"><span class="tap">C+S P</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_COPY"><span class="tap">Copy</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key normal" title="KC_PSTE"><span class="tap">Paste</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key combo" title="LSFT(KC_ENTER)"><span class="tap">⇧↩</span></div></div>
+    <div class="pk thumb" style="left:198px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+  </div>
+  <div class="half">
+    <div class="pk" style="left:0px;top:12px"><div class="key normal" title="KC_6"><span class="tap">6</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key normal" title="KC_7"><span class="tap">7</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key normal" title="KC_8"><span class="tap">8</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key normal" title="KC_9"><span class="tap">9</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key normal" title="KC_0"><span class="tap">0</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key normal" title="KC_QUOTE"><span class="tap">&#x27;</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_LEFT"><span class="tap">←</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key normal" title="KC_UP"><span class="tap">↑</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key normal" title="KC_DOWN"><span class="tap">↓</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key normal" title="KC_RIGHT"><span class="tap">→</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key special" title="KC_ENTER"><span class="tap">↩</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_KP_SLASH"><span class="tap">KP/</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key normal" title="KC_MUTE"><span class="tap">Mute</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key normal" title="KC_VOLD"><span class="tap">Vol-</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key normal" title="KC_VOLU"><span class="tap">Vol+</span></div></div>
+    <div class="pk thumb" style="left:66px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key special" title="KC_DELETE"><span class="tap">Del</span></div></div>
+  </div>
+</div></div>
+<div class="panel " id="p2" data-label="Layer 2"><div class="keyboard">
+  <div class="half">
+    <div class="pk" style="left:0px;top:12px"><div class="key func" title="KC_F1"><span class="tap">F1</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key func" title="KC_F2"><span class="tap">F2</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key func" title="KC_F3"><span class="tap">F3</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key func" title="KC_F4"><span class="tap">F4</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key func" title="KC_F5"><span class="tap">F5</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key combo" title="RCTL(KC_J)"><span class="tap">C+J</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key combo" title="RCTL(KC_Y)"><span class="tap">C+Y</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key combo" title="LCTL(KC_U)"><span class="tap">C+U</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key combo" title="C_S(KC_P)"><span class="tap">C+S P</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key combo" title="RGUI(KC_L)"><span class="tap">⊞+L</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_NONUS_BSLASH"><span class="tap">&lt;</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key combo" title="RSFT(KC_NONUS_BSLASH)"><span class="tap">⇧&lt;</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key func" title="KC_F11"><span class="tap">F11</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key func" title="KC_F12"><span class="tap">F12</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk thumb" style="left:198px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+  </div>
+  <div class="half">
+    <div class="pk" style="left:0px;top:12px"><div class="key func" title="KC_F6"><span class="tap">F6</span></div></div>
+    <div class="pk" style="left:66px;top:6px"><div class="key func" title="KC_F7"><span class="tap">F7</span></div></div>
+    <div class="pk" style="left:132px;top:0px"><div class="key combo" title="LSFT(KC_8)"><span class="tap">⇧8</span></div></div>
+    <div class="pk" style="left:198px;top:6px"><div class="key combo" title="LSFT(KC_9)"><span class="tap">⇧9</span></div></div>
+    <div class="pk" style="left:264px;top:12px"><div class="key func" title="KC_F10"><span class="tap">F10</span></div></div>
+    <div class="pk" style="left:0px;top:78px"><div class="key combo" title="LSFT(KC_BSLASH)"><span class="tap">⇧\</span></div></div>
+    <div class="pk" style="left:66px;top:72px"><div class="key normal" title="KC_RBRACKET"><span class="tap">]</span></div></div>
+    <div class="pk" style="left:132px;top:66px"><div class="key combo" title="RALT(KC_LBRACKET)"><span class="tap">Ag+[</span></div></div>
+    <div class="pk" style="left:198px;top:72px"><div class="key combo" title="RALT(KC_RBRACKET)"><span class="tap">Ag+]</span></div></div>
+    <div class="pk" style="left:264px;top:78px"><div class="key normal" title="KC_MINUS"><span class="tap">-</span></div></div>
+    <div class="pk" style="left:0px;top:144px"><div class="key combo" title="LSFT(KC_1)"><span class="tap">⇧1</span></div></div>
+    <div class="pk" style="left:66px;top:138px"><div class="key normal" title="KC_PSCREEN"><span class="tap">PrtSc</span></div></div>
+    <div class="pk" style="left:132px;top:132px"><div class="key combo" title="RALT(KC_QUOTE)"><span class="tap">Ag+&#x27;</span></div></div>
+    <div class="pk" style="left:198px;top:138px"><div class="key combo" title="RALT(KC_BSLASH)"><span class="tap">Ag+\</span></div></div>
+    <div class="pk" style="left:264px;top:144px"><div class="key combo" title="LSFT(KC_MINUS)"><span class="tap">⇧-</span></div></div>
+    <div class="pk thumb" style="left:66px;top:224px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+    <div class="pk thumb" style="left:132px;top:231px"><div class="key trns" title="KC_TRNS"><span class="tap">▽</span></div></div>
+  </div>
+</div></div>
+
+  </div>
+
+  <div class="legend">
+    <h3>Legend</h3>
+    <div class="legend-row">
+      <div class="key normal"><span class="tap">A</span></div><span>Normal</span>
+    <div class="key special"><span class="tap">↩</span></div><span>Special</span>
+    <div class="key modifier"><span class="tap">Shift</span></div><span>Modifier</span>
+    <div class="key func"><span class="tap">F1</span></div><span>Function</span>
+    <div class="key modtap"><span class="tap">F</span><span class="hold">Alt</span></div><span>Mod-Tap (tap / hold)</span>
+    <div class="key layertap"><span class="tap">Tab</span><span class="hold">L1</span></div><span>Layer-Tap</span>
+    <div class="key combo"><span class="tap">C+V</span></div><span>Combo</span>
+    <div class="key trns"><span class="tap">▽</span></div><span>Transparent</span>
+    </div>
+  </div>
+
+  <script>
+function show(n) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('p' + n).classList.add('active');
+  document.getElementById('t' + n).classList.add('active');
+}
+
+  </script>
+</body>
+</html>
